@@ -1,3 +1,9 @@
 function filterRange(arr, a, b) {
-  // ваш код...
+  let filtred = [];
+  arr.forEach(function (item) {
+    if (item >= a && item <= b) {
+      filtred.push(item);
+    }
+  });
+  return filtred;
 }
