@@ -1,43 +1,38 @@
 function initCarousel() {
 
-  let ci = document.querySelector('.carousel__inner');
-  let right = document.querySelector('.carousel__arrow_right');
-  let left = document.querySelector('.carousel__arrow_left');
-  left.style.display = 'none';
+  const carousel = document.querySelector('.carousel');
+  const carouselInner = document.querySelector('.carousel__inner');
+  let sliderStep = 0;
 
-  ci.sliderStep = 0;
-  ci.sharedWidth = 0;
+  carousel.querySelector('.carousel__arrow_left').style.display = 'none';
 
-  ci.slide = function () {
-    this.style.transform = 'translateX(' + this.sharedWidth + 'px)';
-  };
+  carousel.addEventListener('click', function (event) {
+    let target = event.target.closest('.carousel__arrow');
 
-  ci.hideElement = function (element) {
-    if (this.sliderStep === (this.childElementCount - 1) || this.sliderStep === 0) {
-      element.style.display = 'none';
+    if (!target) {
+      return;
     }
-  };
 
-  ci.showElement = function (element) {
-    if (element.style.display === 'none') {
-      element.style.display = '';
+    if (target.classList.contains('carousel__arrow_left')) {
+      sliderStep--;
     }
-  };
 
-  right.addEventListener('click', function (event) {
-    ci.sharedWidth -= ci.offsetWidth;
-    ci.sliderStep++;
-    ci.hideElement(this);
-    ci.showElement(left);
-    ci.slide();
+    if (target.classList.contains('carousel__arrow_right')) {
+      sliderStep++;
+    }
+
+    if (sliderStep === (carouselInner.childElementCount - 1) || sliderStep === 0) {
+      target.style.display = 'none';
+    }
+
+    if (sliderStep === 1) {
+      this.querySelector('.carousel__arrow_left').style.display = '';
+    }
+
+    if (sliderStep === (carouselInner.childElementCount - 2)) {
+      this.querySelector('.carousel__arrow_right').style.display = '';
+    }
+
+    carouselInner.style.transform = 'translateX(-' + carouselInner.offsetWidth * sliderStep + 'px)';
   });
-
-  left.addEventListener('click', function (event) {
-    ci.sharedWidth += ci.offsetWidth;
-    ci.sliderStep--;
-    ci.hideElement(this);
-    ci.showElement(right);
-    ci.slide();
-  });
-
 }
